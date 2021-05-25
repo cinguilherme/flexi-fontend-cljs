@@ -3,6 +3,9 @@
    [reagent.core :as r]
    [reagent.dom :as d]))
 
+;; Data
+(def scrambleData (r/atom {:sourc "abc" :targ "acd" :scramble? false}))
+
 ;; -------------------------
 ;; Views
 
@@ -16,11 +19,14 @@
    [:input {:type "text" :placeholder "string to be looked for" :class "form-control"} ] 
    [:input {:type "button" :title "request" :value "Request Scrable Test"  :class "form-control"} ]])
 
-(defn results-presenter []
+(defn checked [data]
+  (if (= true (:scramble? data)) "possible" "impossible"))
+
+(defn results-presenter [data]
   [:div {:class "col-md-12"}
-    [:p "results of requested scramble test"]
-    ]
-  )
+    [:p (str "results of requested scramble test: " 
+          (:targ data) " " (:sourc data) 
+          " and it is " (checked data) " to scramble." ) ]])
 
 (defn home-page []
   [:div {:class "jumbotron vertial-center"}
@@ -32,8 +38,7 @@
         [:br]
         (scramble-form)]
         [:br]
-        (results-presenter)
-     ]]])
+        (results-presenter @scrambleData)]]])
 
 
 
