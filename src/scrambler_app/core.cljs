@@ -3,6 +3,9 @@
    [reagent.core :as r]
    [reagent.dom :as d]))
 
+;; helpers
+(def log (.-log js/console))
+
 ;; Data
 (def scrambleData (r/atom {:sourc "abc" :targ "acd" :scramble? false}))
 
@@ -13,19 +16,25 @@
 ;; Views
 
 (defn scram-form [] 
-  (let [newInp (r/atom "")]
+  (let [firstInpStr (r/atom "") secondInpStr (r/atom "")]
     (fn [] 
       [:form {:on-submit (fn [e] 
         (.preventDefault e)
+        (log firstInpStr secondInpStr)
         ()
       )}
         [:input {:type "text" 
-                  :value @newInp 
+                  :value @firstInpStr 
                   :placeholder "first str here"
                   :on-change (fn [e] 
-                            (reset! newInp (.-value (.-target e)))) }]
-        [:input {:type "text" :placeholder "second str here"}]
-        [:input {:type "button" :value "Request Scramble Check"}]
+                            (reset! firstInpStr (.-value (.-target e)))) }]
+        
+        [:input {:type "text" :placeholder "second str here"
+                  :value @secondInpStr
+                  :on-change (fn [e] 
+                            (reset! secondInpStr (.-value (.-target e))))}]
+        
+        [:input {:type "submit" :value "Request Scramble Check"}]
         ]
       )
     ))
