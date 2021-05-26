@@ -12,9 +12,6 @@
 ;; Data
 (def scrambleData (r/atom {:sourc "abc" :targ "acd" :scramble? false}))
 
-;; Const
-(def baseUrl "http://localhost:8080/?str1=%22 %22&str2=%22 %22")
-
 ;; -------------------------
 ;; Views
 
@@ -54,13 +51,6 @@
 (defn title-component []
   [:h2 {:class "col display-4"} "Welcome to Scrambler App"])
 
-(defn scramble-form []
-  [:div {:class "col-md-12"}
-
-   [:input {:type "text" :placeholder "string to be used" :class "form-control"} ] 
-   [:input {:type "text" :placeholder "string to be looked for" :class "form-control"} ] 
-   [:input {:type "button" :title "request" :value "Request Scrable Test"  :class "form-control"} ]])
-
 (defn checked [data]
   (if (= true (:scramble? data)) "possible" "impossible"))
 
@@ -78,10 +68,7 @@
         
         [:br]
         [title-component]
-        
-        [:br]
-        [scramble-form]
-        
+       
         [:br]
         [scram-form]
 
