@@ -1,7 +1,10 @@
 (ns scrambler-app.core
   (:require
    [reagent.core :as r]
-   [reagent.dom :as d]))
+   [reagent.dom :as d])
+   (:require-macros [cljs.core.async.macros :refer [go]])
+   (:require [cljs-http.client :as http]
+             [cljs.core.async :refer [<!]]))
 
 ;; helpers
 (def log (.-log js/console))
@@ -21,7 +24,12 @@
       [:form {:on-submit (fn [e] 
         (.preventDefault e)
         (log firstInpStr secondInpStr)
-        ()
+        (go (let [response (<! (http/get "http://localhost:8080"
+          {:with-credentials? false
+           :query-params {"str1" firstInpStr "str2" secondInpStr}}))]
+            (prn (:status response))
+            (prn (:body response) )))
+
       )}
         [:input {:type "text" 
                   :value @firstInpStr 
@@ -74,7 +82,6 @@
         [scram-form]
 
         (results-presenter @scrambleData)]]]])
-
 
 
 ;; -------------------------

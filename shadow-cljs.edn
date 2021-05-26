@@ -2,7 +2,8 @@
  :dependencies [[binaryage/devtools "1.0.3"]
                 [nrepl "0.8.3"]
                 [reagent "1.0.0"]
-                [clj-http "3.12.0"]]
+                [clj-http "3.12.0"]
+                [cljs-http "0.1.46"]]
  :builds       {:app {:target     :browser
                       :output-dir "public/js"
                       :asset-path "/js"
