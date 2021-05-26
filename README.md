@@ -1,4 +1,5 @@
-
+### Flexi frontend for task 3
+- this is hardcoded to work if the server is running on port 8080
 ### Development mode
 ```
 npm install
