@@ -24,11 +24,15 @@
       [:form {:on-submit (fn [e] 
         (.preventDefault e)
         (log firstInpStr secondInpStr)
+      
+        (swap! scrambleData conj {:sourc @firstInpStr :targ @secondInpStr})
+
         (go (let [response (<! (http/get "http://localhost:8080"
           {:with-credentials? false
+           :headers {"Content-Type" "application/json" }
            :query-params {"str1" firstInpStr "str2" secondInpStr}}))]
             (prn (:status response))
-            (prn (:body response) )))
+            (swap! scrambleData conj {:scramble? (:isScramblable? (:body response))} )))
 
       )}
         [:input {:type "text" 
